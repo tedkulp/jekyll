@@ -41,26 +41,32 @@ module Jekyll
       
         posts.each do |post|
           title = post["title"]
-          slug = title.gsub(/[^[:alnum:]]+/, '-').downcase  
+          slug = title.gsub(/[^[:alnum:]]+/, '-').downcase
           date = Date.parse(post["display_date"])
-          content = post["body_html"]
+          content = post["body_full"]
           published = !post["is_private"]
           name = "%02d-%02d-%02d-%s.html" % [date.year, date.month, date.day, slug]
-        
-          # Get the relevant fields as a hash, delete empty fields and convert
+
+		  tags = []
+		  post['tags'].each{ |v| tags << v['name'] }
+
+          #c Get the relevant fields as a hash, delete empty fields and convert
           # to YAML for the header
           data = {
              'layout' => 'post',
              'title' => title.to_s,
-             'published' => published
-           }.delete_if { |k,v| v.nil? || v == ''}.to_yaml
+             'published' => published,
+			 'permalink' => "/#{post['slug']}.html",
+			 'tags' => tags
+		  }
+		  data = data.delete_if { |k,v| v.nil? || v == '' || (v.is_a?(Array) && v.empty?) }.to_yaml
 
           # Write out the data and content to file
-          File.open("_posts/#{name}", "w") do |f|
-            f.puts data
-            f.puts "---"
-            f.puts content
-          end
+		  File.open("_posts/#{name}", "w") do |f|
+			f.puts data
+			f.puts "---"
+			f.puts content
+		  end
         
         end
         
