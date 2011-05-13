@@ -40,7 +40,11 @@ module Jekyll
     #
     # Returns nothing
     def transform
-      self.content = converter.convert(self.content)
+	  @transformed ||= false
+	  if !@transformed
+		  self.content = converter.convert(self.content)
+		  @transformed = true
+	  end
     end
 
     # Determine the extension depending on content_type
