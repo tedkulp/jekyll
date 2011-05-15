@@ -6,7 +6,7 @@ module Jekyll
                   :permalink_style, :tags, :time, :future, :safe, :plugins, :limit_posts,
 				  :collated_posts
 
-    attr_accessor :converters, :generators
+    attr_accessor :converters, :generators, :post_filters
 
     # Initialize the site
     #   +config+ is a Hash containing site configurations details
@@ -65,6 +65,12 @@ module Jekyll
       end
 
       self.generators = Jekyll::Generator.subclasses.select do |c|
+        !self.safe || c.safe
+      end.map do |c|
+        c.new(self.config)
+      end
+
+      self.post_filters = Jekyll::PostFilter.subclasses.select do |c|
         !self.safe || c.safe
       end.map do |c|
         c.new(self.config)

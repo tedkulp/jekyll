@@ -40,8 +40,10 @@ require 'jekyll/errors'
 require 'jekyll/plugin'
 require 'jekyll/converter'
 require 'jekyll/generator'
+require 'jekyll/post_filter'
 require_all 'jekyll/converters'
 require_all 'jekyll/generators'
+require_all 'jekyll/post_filters'
 require_all 'jekyll/tags'
 
 module Jekyll
