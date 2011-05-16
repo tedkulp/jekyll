@@ -135,6 +135,7 @@ module Jekyll
       end
 
       self.posts.sort!
+	  self.tags = Hash[self.tags.sort]
 
       # limit the posts if :limit_posts option is set
       self.posts = self.posts[-limit_posts, limit_posts] if limit_posts
