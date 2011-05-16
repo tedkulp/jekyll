@@ -133,6 +133,10 @@ module Jekyll
       }.gsub(/\/\//, "/")
     end
 
+	def full_url
+		'http://' + self.site.config['domain'] + self.url
+	end
+
     # The UID for this post (useful in feeds)
     # e.g. /2008/11/05/my-awesome-post
     #
