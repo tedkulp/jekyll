@@ -220,6 +220,7 @@ module Jekyll
       self.data.deep_merge({
         "title"      => self.data["title"] || self.slug.split('-').select {|w| w.capitalize! || w }.join(' '),
         "url"        => self.url,
+        "full_url"   => self.full_url,
         "date"       => self.date,
         "id"         => self.id,
         "categories" => self.categories,
