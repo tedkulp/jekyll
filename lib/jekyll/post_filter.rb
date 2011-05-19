@@ -16,6 +16,10 @@ module Jekyll
 
 	  end
 
+    def post_write(post)
+
+    end
+
   end
 
 end

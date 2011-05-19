@@ -40,11 +40,7 @@ module Jekyll
     #
     # Returns nothing
     def transform
-	  @transformed ||= false
-	  if !@transformed
-		  self.content = converter.convert(self.content)
-		  @transformed = true
-	  end
+      self.content = converter.convert(self.content)
     end
 
     # Determine the extension depending on content_type
@@ -71,14 +67,22 @@ module Jekyll
       # render and transform content (this becomes the final content of the object)
       payload["pygments_prefix"] = converter.pygments_prefix
       payload["pygments_suffix"] = converter.pygments_suffix
-      
+
+      self.site.post_filters.each do |filter|
+        filter.pre_render(self)
+      end
+
       begin
         self.content = Liquid::Template.parse(self.content).render(payload, info)
       rescue => e
         puts "Liquid Exception: #{e.message} in #{self.data["layout"]}"
       end
-      
+
       self.transform
+
+      self.site.post_filters.each do |filter|
+        filter.post_render(self)
+      end
 
       # output keeps track of what will finally be written
       self.output = self.content

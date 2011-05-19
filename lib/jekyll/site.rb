@@ -198,6 +198,9 @@ module Jekyll
     def write
       self.posts.each do |post|
         post.write(self.dest)
+        self.post_filters.each do |filter|
+          filter.post_write(post)
+        end
       end
       self.pages.each do |page|
         page.write(self.dest)

@@ -179,15 +179,8 @@ module Jekyll
         "page" => self.to_liquid
       }.deep_merge(site_payload)
 
-      self.site.post_filters.each do |filter|
-        filter.pre_render(self)
-      end
-
       do_layout(payload, layouts)
 
-      self.site.post_filters.each do |filter|
-        filter.post_render(self)
-      end
     end
     
     # Obtain destination path.
