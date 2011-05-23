@@ -58,9 +58,20 @@ module Jekyll
             STDERR.puts '  $ [sudo] gem install maruku'
             raise FatalException.new("Missing dependency: maruku")
           end
+        when 'redcarpet'
+          begin
+            require 'redcarpet'
+
+            # Load redcarpet extensions
+            @redcarpet_extensions = @config['redcarpet']['extensions'].map { |e| e.to_sym }
+          rescue LoadError
+            STDERR.puts 'You are missing a library required for Markdown. Please run:'
+            STDERR.puts '  $ [sudo] gem install redcarpet'
+            raise FatalException.new("Missing dependency: redcarpet")
+          end
         else
           STDERR.puts "Invalid Markdown processor: #{@config['markdown']}"
-          STDERR.puts "  Valid options are [ maruku | rdiscount | kramdown ]"
+          STDERR.puts "  Valid options are [ maruku | rdiscount | kramdown | redcarpet ]"
           raise FatalException.new("Invalid Markdown process: #{@config['markdown']}")
       end
       @setup = true
@@ -106,6 +117,8 @@ module Jekyll
           RDiscount.new(content, *@rdiscount_extensions).to_html
         when 'maruku'
           Maruku.new(content).to_html
+        when 'redcarpet'
+          Redcarpet.new(content, *@redcarpet_extensions).to_html
       end
     end
   end
