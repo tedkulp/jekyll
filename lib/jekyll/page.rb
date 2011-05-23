@@ -6,6 +6,7 @@ module Jekyll
     attr_accessor :site, :pager
     attr_accessor :name, :ext, :basename, :dir
     attr_accessor :data, :content, :output
+    attr_accessor :transformed
 
     # Initialize a new Page.
     #   +site+ is the Site
@@ -19,6 +20,7 @@ module Jekyll
       @base = base
       @dir  = dir
       @name = name
+      @transformed = false
 
       self.process(name)
       self.read_yaml(File.join(base, dir), name)

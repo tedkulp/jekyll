@@ -21,6 +21,7 @@ module Jekyll
     attr_accessor :site
     attr_accessor :data, :content, :output, :ext
     attr_accessor :date, :slug, :published, :tags, :categories
+    attr_accessor :transformed
 
     # Initialize this Post instance.
     #   +site+ is the Site
@@ -33,6 +34,7 @@ module Jekyll
       @site = site
       @base = File.join(source, dir, '_posts')
       @name = name
+      @transformed = false
 
       self.categories = dir.split('/').reject { |x| x.empty? }
       self.process(name)

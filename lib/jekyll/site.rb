@@ -141,14 +141,15 @@ module Jekyll
     end
 
     def generate
-      self.generators.each do |generator|
-        generator.generate(self)
-      end
     end
 
     def render
       self.posts.each do |post|
         post.render(self.layouts, site_payload)
+      end
+
+      self.generators.each do |generator|
+        generator.generate(self)
       end
 
       self.pages.each do |page|

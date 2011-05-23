@@ -9,6 +9,14 @@ module Jekyll
 
 	  end
 
+    def pre_conversion(post)
+
+    end
+
+    def post_conversion(post)
+
+    end
+
 	  #Called after the post is rendered with the converter.
 	  #Use the post object to modify it's contents before the
 	  #post is inserted into the template.

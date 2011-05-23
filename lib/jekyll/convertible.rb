@@ -40,7 +40,20 @@ module Jekyll
     #
     # Returns nothing
     def transform
-      self.content = converter.convert(self.content)
+      if self.class.to_s == 'Jekyll::Post'
+        unless self.transformed
+          self.site.post_filters.each do |filter|
+            filter.pre_conversion(self)
+          end
+
+          self.content = converter.convert(self.content)
+          self.transformed = true
+
+          self.site.post_filters.each do |filter|
+            filter.post_conversion(self)
+          end
+        end
+      end
     end
 
     # Determine the extension depending on content_type
